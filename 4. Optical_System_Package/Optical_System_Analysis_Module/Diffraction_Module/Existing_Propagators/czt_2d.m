@@ -1,5 +1,4 @@
 function xout = czt_2d( xin , scalx , scaly , idir )
-%___________________________________________________________________________________
 %
 %  Aufruf:
 %  xout = czt_two(xin,scalx,scaly,idir);
@@ -12,7 +11,7 @@ function xout = czt_2d( xin , scalx , scaly , idir )
 %  Basis ist die Routine czt aus der Signal-Toolbox von Matlab.
 %  Für scalx/scaly = 1 entsteht die FFT. Die Frequenzachsen werden um die Faktoren
 %  scalx/scaly gespreizt.
-%  Es muß scalx/scaly => 1 gelten.
+%  Es mu„1¤7 scalx/scaly => 1 gelten.
 %  Die Index-Shiftfunktion ist bereits enthalten, die Frequenz s = 0 liegt beim Index np/2+1.
 %  Es gilt für die Frequenzrasterweite :    ds = 1 / ( npx * dx * scalx )  (y analog)
 %
@@ -69,7 +68,7 @@ xout = zeros(npx,npy,1);
 %
 %  x-Richtung, 1. Index
 %
-if idir == 0 | idir == 1
+if idir == 0 || idir == 1
 %
    fak = zeros(1,npx);
    n2 = npx/2+1;
@@ -77,13 +76,13 @@ if idir == 0 | idir == 1
    kk = ( (-npx+1):(npx-1) ).';
    kk2 = (kk .^ 2) ./ 2;
 %
-   w = exp( -i*2*pi/(npx*scalx));
-   a = exp( -i*pi/scalx );
+   w = exp( -1i*2*pi/(npx*scalx));
+   a = exp( -1i*pi/scalx );
    ww = w .^ (kk2);   
    aa = a .^ ( -nn );
    aa = aa .* ww(npx+nn);
    fv = fft( 1 ./ ww(1:(2*npx-1)), 2*npx );   
-   for j=1:npx ; fak(j) =  exp(pi*i*(j-n2)/scalx );end
+   for j=1:npx ; fak(j) =  exp(pi*1i*(j-n2)/scalx );end
    fak = ww( npx:(2*npx-1) ) .* fak.' ;
 %
    for k=1:npy
@@ -99,7 +98,7 @@ end
 %
 %  y-Richtung, 2. Index
 %
-if idir == 0 | idir == 2
+if idir == 0 || idir == 2
 %
    clear fak ;
    fak = zeros(1,npy);
@@ -107,13 +106,13 @@ if idir == 0 | idir == 2
    nn = (0:(npy-1))';
    kk = ( (-npy+1):(npy-1) ).';
    kk2 = (kk .^ 2) ./ 2;
-   w = exp( -i*2*pi/(npy*scaly));
-   a = exp( -i*pi/scaly );
+   w = exp( -1i*2*pi/(npy*scaly));
+   a = exp( -1i*pi/scaly );
    ww = w .^ (kk2);   
    aa = a .^ ( -nn );
    aa = aa .* ww(npy+nn);
    fv = fft( 1 ./ ww(1:(2*npy-1)), 2*npy );   
-   for j=1:npy ; fak(j) =  exp(pi*i*(j-n2)/scaly );end
+   for j=1:npy ; fak(j) =  exp(pi*1i*(j-n2)/scaly );end
    fak = ww( npy:(2*npy-1) ) .* fak.' ;
 %
    for j=1:npx
@@ -125,4 +124,3 @@ if idir == 0 | idir == 2
 end
 %
 xout = conj(xout);
-%

@@ -104,5 +104,3 @@ axis tight;
 title(['I  ',num2str(max(max(I)))])
 set(gcf,'Color',[1,1,1])
 set( gca, 'FontSize' , 12, 'fontweight','bold' );
-
-

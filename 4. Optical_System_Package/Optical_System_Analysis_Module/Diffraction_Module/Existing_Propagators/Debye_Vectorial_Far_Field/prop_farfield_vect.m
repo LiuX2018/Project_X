@@ -1,5 +1,5 @@
-function [efdxs,efdys,efdzs,xs,ys,ierr,sterr] = prop_farfield_vect(efdx,efdy,wl,xp,yp,rcurv,dz,...
-                    scalx,scaly,varargin)
+function [efdxs,efdys,efdzs,xs,ys,ierr,sterr] = prop_farfield_vect(efdx,efdy,...
+    wl,xp,yp,rcurv,dz,scalx,scaly,varargin)
 %_________________________________________________________________
 %
 % function call:
@@ -95,23 +95,24 @@ if nargin == 9
    for j=1:npy ; ys(j) = (j-npy/2-1)*dys ; end
 elseif nargin > 9
    xs = varargin{1} ; 
-   if numel(xs) == 1 && xs > 0 ;
+   if numel(xs) == 1 && xs > 0
       dxs = xs(1)/(npx-2);  xs = zeros(npx,1);
       for j=1:npx ; xs(j) = (j-npx/2-1)*dxs ; end
       scalx = wl / ( 2 * dxs * xp(npx)/z ) ;
-   elseif numel(xs)==npx || sum(abs(xs))==0 ; 
+   elseif numel(xs)==npx || sum(abs(xs))==0 
       ierr = 2 ; sterr ='falsche Angabe xs/ys'; 
    else
       dxs = xs(2)-xs(1); scalx = wl / ( 2 * dxs * xp(npx)/z ) ;
    end
 end
-if nargin == 10
+
+if nargin == 11
    ys = varargin{2} ;  
-   if numel(ys) == 1 && ys > 0 ;
+   if numel(ys) == 1 && ys > 0
       dys = ys(1)/(npy-2);  ys = zeros(npy,1);
       for j=1:npy ; ys(j) = (j-npy/2-1)*dys ; end
       scaly = wl / ( 2 * dys * yp(npy)/z ) ;
-   elseif numel(ys)==npy || sum(abs(ys))==0 ; 
+   elseif numel(ys)==npy || sum(abs(ys))==0
       ierr = 2 ; sterr ='falsche Angabe xs/ys'; 
    else
       dys = ys(2)-ys(1); scaly = wl / ( 2 * dys * yp(npy)/z ) ;
@@ -153,34 +154,9 @@ efdzs = 1i*conj( czt_2d( (-efdx .* px     - efdy .* py     ) , scaly , scalx , 0
 %
 % Energy conservation
 %
-% powo = dxs*dys*( sum(sum(abs(efdxs).^2)) + sum(sum(abs(efdys).^2)) + sum(sum(abs(efdzs).^2)) );
-% nor = sqrt(powi/powo );
+powo = dxs*dys*( sum(sum(abs(efdxs).^2)) + sum(sum(abs(efdys).^2)) + sum(sum(abs(efdzs).^2)) );
+nor = sqrt(powi/powo );
 % efdxs = nor * efdxs ;
 % efdys = nor * efdys ;
 % efdzs = nor * efdzs ;
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
